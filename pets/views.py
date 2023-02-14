@@ -6,6 +6,7 @@ from pets.serializers import PetSerializer
 from .models import Pet
 from groups.models import Group
 from traits.models import Trait
+from rest_framework import serializers
 
 
 class PetView(APIView, PageNumberPagination):

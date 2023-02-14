@@ -5,9 +5,9 @@ from groups.serializers import GroupSerializer
 
 class PetSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
-    name = serializers.CharField()
-    age = serializers.IntegerField()
-    weight = serializers.FloatField()
+    name = serializers.CharField(required=True)
+    age = serializers.IntegerField(required=True)
+    weight = serializers.FloatField(required=True)
     sex = serializers.CharField()
-    group = GroupSerializer()
-    traits = TraitSerializer(many=True)
+    group = GroupSerializer(required=True)
+    traits = TraitSerializer(many=True, required=True)

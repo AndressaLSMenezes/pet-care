@@ -54,6 +54,12 @@ class PetDetailView(APIView):
         except Pet.DoesNotExist:
             return Response({"detail": "Not found."}, status=404)
 
+        trait = request.query_params.get("trait", None)
+        if trait:
+            pets = Pet.objects.filter(traits__name=trait)
+            serializer = PetSerializer(pets, many=True)
+            return Response(serializer.data)
+
         serializer = PetSerializer(pet)
         return Response(serializer.data)
 

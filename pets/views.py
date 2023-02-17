@@ -105,22 +105,10 @@ class PetDetailView(APIView):
                         trait = Trait.objects.create(name=trait_name)
                     new_traits.append(trait)
                 pet.traits.set(new_traits)
-        for key, value in serializer.validated_data.items():
-            try:
-                if key == "sex":
-                    serializer.validate_sex(value)
-            except serializers.ValidationError as err:
-                return Response({"message": err.message}, status=400)
-            setattr(pet, key, value)
+            for key, value in serializer.validated_data.items():
+                setattr(pet, key, value)
 
-        pet.save()
-        serializer = PetSerializer(pet)
-        return Response(serializer.data)
-
-
-# class PetFindView(APIView):
-#     def get(self, request):
-#         trait = request.query_params.get("trait", None)
-#         pets = Pet.objects.filter(traits__contains=trait)
-#         serializer = PetSerializer(pets, many=True)
-#         return Response(serializer.data)
+            pet.save()
+            serializer = PetSerializer(pet)
+            return Response(serializer.data)
+        return Response(serializer.errors, 400)

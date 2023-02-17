@@ -9,11 +9,6 @@ class PetSerializer(serializers.Serializer):
     name = serializers.CharField()
     age = serializers.IntegerField()
     weight = serializers.FloatField()
-    sex = serializers.CharField(required=False)
+    sex = serializers.ChoiceField(choices=SexPet.choices, default=SexPet.DEFAULT)
     group = GroupSerializer()
     traits = TraitSerializer(many=True)
-
-    def validate_sex(self, value):
-        if value not in dict(SexPet.choices):
-            raise serializers.ValidationError("Invalid sex value")
-        return value
